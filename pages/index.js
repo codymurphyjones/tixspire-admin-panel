@@ -3,7 +3,7 @@ import react from "react"
 import './style.css'
 import TicketComponent from "../components/TicketComponent"
 import 'antd/dist/antd.css';
-import { Tabs, Icon } from 'antd';
+import { Tabs, Icon, Alert } from 'antd';
 
 const { TabPane } = Tabs;
 
@@ -61,8 +61,8 @@ const FullHeightPage = () => (
        			 width: '100%',
         		textAlign: 'center',
         		alignItems: 'center', marginTop: 50}}>
-				<div onClick={() => {console.log("Deny")}}><Icon type="close" style={{fontSize: 30}} ></Icon></div>
-				<div onClick={() => {console.log("Accept")}}><Icon type="check" style={{fontSize: 30}}></Icon></div>
+				<div onClick={() => {console.log("Deny"); alert("Deny");}}><Icon type="close" style={{fontSize: 30}} ></Icon></div>
+				<div onClick={() => {console.log("Accept"); alert("Accept");}}><Icon type="check" style={{fontSize: 30}}></Icon></div>
 			</div>
 		</div>
 		
