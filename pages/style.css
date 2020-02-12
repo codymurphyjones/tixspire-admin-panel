@@ -1,0 +1,12 @@
+.centered {
+  display: flex;
+  flex-direction: column;
+  text-align:center;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+#__next {
+  height: 100%;
+}
