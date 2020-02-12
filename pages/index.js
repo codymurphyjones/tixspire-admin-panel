@@ -33,7 +33,7 @@ const FullHeightPage = () => (
 		</TabPane>
 	</Tabs>
         </div>
-		<div className="centered" style={{width: "74%", float: 'right', height: "100%"}}>
+		<div className="centered" style={{width: "70%", float: 'right', height: "100%"}}>
 		<div style={{display: "block", width: "100%"}}>
 			<div style={{display: 'flex',
         	alignItems: 'center',
