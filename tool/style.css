@@ -44,9 +44,9 @@
     line-height: 27px;
     display: inline-block;
     margin-right: 5px;
-    color: #333333;
+    color: #FFF;
     font-size: 11px;
-    //text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+    text-shadow: 0 1px 0 rgba(0,0,0,0.6);
     font-weight: 600;
 }
 
@@ -57,4 +57,5 @@
     width: 65px;
     background-size: contain;
     display: inline-block;
+	margin-top: -7px;
 }
