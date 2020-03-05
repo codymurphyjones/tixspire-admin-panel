@@ -9,7 +9,6 @@ link.href = 'https://cdn.jsdelivr.net/gh/codymurphyjones/tixspire-admin-panel@ma
 
 head.appendChild(link); 
 
-
 function RunTixpire() {
 	var tixpire = document.getElementById("tixpire");
 	tixpire.classList.add("tixpire_button")
@@ -30,4 +29,16 @@ window.onload = RunTixpire;
          <div><span>Go Now, Pay Later</span><em></em></div>
       </button>
    </div>
+   
+   
+   
+var script = document.createElement('script');
+script.type = 'text/javascript';
+script.src = "https://cdn.jsdelivr.net/gh/codymurphyjones/tixspire-admin-panel@master/tool/script.js";
+document.head.appendChild(script);
+
+
+
+
+<div url="http://google.com" id="tixpire">Test</div>
 */
