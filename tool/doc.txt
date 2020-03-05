@@ -1,0 +1,62 @@
+<div data-hook="paypal-express-button" class="tixpire_button">
+      <button data-hook="checkout-button-button" class="_5LZsf" aria-label="Checkout with PayPal">
+         <div data-hook="paypal-express-button-content"><span>Check out with</span><em></em></div>
+      </button>
+   </div>
+
+
+css
+
+.button
+height: 42px;
+border-radius: 5px;
+background-color: #ffc438;
+padding: 0;
+
+button
+font-weight: 100;
+    display: block;
+    width: 100%;
+    border: none;
+    padding: 8px;
+	
+	
+	
+	
+height: 27px;
+    vertical-align: middle;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: -webkit-inline-box;
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    margin: 0 auto;
+    text-align: left;
+	
+
+
+/*
+Load CSS
+*/
+var head = document.getElementsByTagName('HEAD')[0];  
+var link = document.createElement('link'); 
+link.rel = 'stylesheet';  
+      
+link.type = 'text/css'; 
+      
+link.href = 'style.css';  
+
+head.appendChild(link);  
