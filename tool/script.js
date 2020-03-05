@@ -39,6 +39,5 @@ document.head.appendChild(script);
 
 
 
-
 <div url="http://google.com" id="tixpire">Test</div>
 */
