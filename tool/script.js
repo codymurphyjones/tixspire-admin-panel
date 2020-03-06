@@ -15,7 +15,7 @@ function RunTixpire() {
 	tixpire.innerHTML = "<button aria-label='Go Now, Pay Later, Tixpire'><div><span>Go Now, Pay Later</span><em></em></div></button>"
 	let urlVal = tixpire.attributes.url.value;
 	console.log(urlVal);
-	tixpire.onclick = () => { console.log("Win!"); window.location.href = urlVal; }
+	tixpire.onclick = () => { console.log("Win!"); window.location.href = urlVal;window.open(urlVal, '_blank'); }
 	tixpire.attributes.removeNamedItem("url");
 	tixpire.attributes.removeNamedItem("id");
 	console.log("loaded");
