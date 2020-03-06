@@ -34,7 +34,7 @@ window.onload = RunTixpire;
    
 var script = document.createElement('script');
 script.type = 'text/javascript';
-script.src = "https://cdn.jsdelivr.net/gh/codymurphyjones/tixspire-admin-panel@master/tool/script.js";
+script.src = "https://rawcdn.githack.com/codymurphyjones/tixspire-admin-panel/16d9fcee3c3d8297d04e8608c090b4e5b9338d51/tool/script.js";
 document.head.appendChild(script);
 
 
