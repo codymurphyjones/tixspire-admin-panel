@@ -21,7 +21,7 @@ const Applications = (props) => {
 	console.log(width)
 	console.log("test")
 
-	if(width < 720 || !process.browser) {
+	if(width < 720) {
 		actualWidth = "100%"
 
 		if(props.selected)

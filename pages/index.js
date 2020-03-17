@@ -20,9 +20,17 @@ const FullHeightPage = (props) => {
 	const [selected,setSelected] = useState(false);
 	const [selectedId,setSelectedId] = useState(null);
 
+	const setSelectedVals = (id) => {
+		if(!id)
+			setSelected(false);
+		else
+			setSelected(true);
+		setSelectedId(id || -1);
+	}
+
   return (<div style={{height: "100%"}}>
 	  	<Applications PressButton={(id)=>{return () => {setSelected(true); setSelectedId(id); console.log("Test")}}} selected={selected} />
-		<MainContent selected={selected} />
+		<MainContent goBack={() => {setSelectedVals()}} selected={selected} />
 		</div>
 		  )
 }

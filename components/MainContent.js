@@ -33,7 +33,7 @@ const MainContent = (props) => {
         <>
         <div style={{width: "100%", height: 40, textAlign: "center", width: actualWidth, float: 'right', marginTop: 10 }}>
             <div style={{height: 40, float: 'left', marginLeft: 20 }}>
-                    <div onClick={() => {console.log("Back"); alert("Back");}}><IoIosBackspace size={50}/></div>
+                    <div onClick={() => {console.log("Back"); props.goBack()}}><IoIosBackspace size={50}/></div>
             </div>
             <div style={{height: 40, float: 'right', marginRight: 20 }}>
             <div onClick={() => {console.log("Back"); alert("Back");}}><IoIosAdd size={50}/></div>
