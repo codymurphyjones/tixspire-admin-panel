@@ -12,7 +12,7 @@ import TicketType from './TicketType'
     let iconHide = (val) => {
         return val ? (<div></div>) : (<EnabledIcon show={props.show || false} />)
     }
-    return (<div style={{margin: 10, padding: 4, border: "1px solid black"}}>
+    return (<div style={{margin: 10, padding: 4, border: "1px solid black"}} onClick={props.onClick} >
       Cody Jones<br />
       ACL Live Purchase
     </div>);
