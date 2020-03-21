@@ -46,24 +46,22 @@ async function getPlans(id) {
   }
 }
 
-async function createPlan(product_id,description,price, redirect_url="https://www.pabbly.com/") {
+export const generatePlan = (plan_name, price, billing_period, billing_period_num=1) => ({
+  "product_id": "5e75e79970dbd219cd252c63",
+  "plan_name": plan_name,
+  "plan_code": plan_name,
+  "billing_cycle": "specific",
+  "billing_cycle_num": "2",
+  "price": price,
+  "billing_period": billing_period,
+  "billing_period_num": billing_period_num,
+  "plan_active": "true",
+  "currency_code": "USD"
+});
+
+export async function createPlan(plan_object) {
     try {
-      const response = await axios.post('https://payments.pabbly.com/api/v1/plan/create',{
-        "product_id": "5d8de292e05efd2ec02232e6",
-        "plan_name": "plan1",
-        "plan_code": "plan1",
-        "billing_cycle": "lifetime",
-        "setup_fee": 2,
-        "billing_cycle_num": "2",
-        "price": 10,
-        "billing_period": "m",
-        "billing_period_num": "1",
-        "plan_active": "true",
-        "plan_description": "",
-        "trial_period": 2,
-        "redirect_url": "https://www.pabbly.com/",
-        "currency_code": "USD"
-      },{
+      const response = await axios.post('https://payments.pabbly.com/api/v1/plan/create',plan_object,{
           auth: {
               username: username,
               password: password
@@ -87,16 +85,16 @@ async function createPlan(product_id,description,price, redirect_url="https://ww
               password: password
           }
       } );
-      console.log(response.data);
+      return response.data;
     } catch (error) {
-        console.log("Error")
-      console.error(error);
+          console.log("Error")
+        console.error(error);
+        return null;
     }
   }
 
 const ApiRequest = () => {
     console.log("Test")
-    //testConnection();
     getPlans("5e58827bc73dc90aa13ad8a1");
     createProduct("Product Test 2","product description","www.exampledomain.com");
 }

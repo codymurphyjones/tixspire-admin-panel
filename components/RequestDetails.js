@@ -5,12 +5,6 @@ import 'antd/dist/antd.css';
 import { Tabs, Icon, Alert } from 'antd';
 import {useWindowDimensions} from "../tool/hooks"
 
-const { TabPane } = Tabs;
-
-function callback(key) {
-  console.log(key);
-}
-
 const RequestDetails = (props) => {
 
 	return (

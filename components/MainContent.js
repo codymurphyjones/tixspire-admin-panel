@@ -6,24 +6,14 @@ import { Tabs, Modal,Radio,List, Avatar,Slider, InputNumber } from 'antd';
 import {useWindowDimensions} from "../tool/hooks"
 import {axios} from "axios"
 import {IoIosAdd, IoIosBackspace} from "react-icons/io";
-import ApiRequest, {createProduct} from "./ApiRequest";
+import ApiRequest, {createProduct, generatePlan, createPlan} from "./ApiRequest";
 
 ApiRequest();
 const { TabPane } = Tabs;
 
 
 
-const generatePlan = (plan_name, price, billing_period, billing_period_num=1) => ({
-  "product_id": "5d8de292e05efd2ec02232e6",
-  "plan_name": plan_name,
-  "plan_code": plan_name,
-  "billing_cycle": "specific",
-  "billing_cycle_num": "2",
-  "price": price,
-  "billing_period": billing_period,
-  "billing_period_num": billing_period_num,
-  "plan_active": "true"
-});
+
 
 
 const MainContent = (props) => {
@@ -33,7 +23,7 @@ const MainContent = (props) => {
     const [product_description, setProductDescription] = useState("product description 3");
     const [redirect_url, setRedirectUrl] = useState("www.exampledomain.com 3");
     const [schedule, setSchedule] = useState("Weekly");
-    const [duration, setDuration] = useState("3 Months");
+    const [duration, setDuration] = useState(3);
     const [planCount,setPlanCount] = useState(0);
     const [price,setPrice] = useState(900);
 
@@ -49,7 +39,14 @@ const MainContent = (props) => {
       console.log(product_description)
       console.log(redirect_url)
 
-      createProduct(product_name,product_description,redirect_url);
+      createProduct(product_name,product_description,redirect_url).then(db => {
+        console.log("Yoooo")
+        console.log(db);
+        if(db.status == "error") {
+          let plan = generatePlan("Plan 1", "100", schedule == "Weekly" ? "w" : "m", schedule == "Biweekly" ? 2 : 1);
+          createPlan(plan);
+        }
+      });
       setModal(false);
     }
 
@@ -102,6 +99,7 @@ const MainContent = (props) => {
           </div>
           <div style={{border: "1px solid #000", borderRadius: "10px", padding: "5px", marginTop: 10}}>
           <div style={{ flexDirection: "column", width: "95%", justifyContent: "space-around", marginTop: 10, marginBottom: 10, textAlign: "center"}}>
+            <div style={{display: "flex", flexDirection: "row", width: "95%", justifyContent: "space-between", marginTop: 10, marginBottom: 10, textAlign: "center"}}>
           <InputNumber
             min={100}
             max={3000}
@@ -110,6 +108,8 @@ const MainContent = (props) => {
             onChange={(e) => {setPrice(e)}}
             step={0.01}
           />
+          <span>${10000}</span>
+          </div>
           <Slider
             min={100}
             max={3000}
@@ -130,9 +130,9 @@ const MainContent = (props) => {
 
           <div>
               <Radio.Group value={duration} onChange={(e) => {setDuration(e.target.value);}} style={{marginTop:10, width: "100%"}}defaultValue="a" buttonStyle="solid">
-              <Radio.Button value="3 Months">3 Months</Radio.Button>
-              <Radio.Button value="6 Months">6 Months</Radio.Button>
-              <Radio.Button value="12 Months">12 Months</Radio.Button>
+              <Radio.Button value={3}>3 Months</Radio.Button>
+              <Radio.Button value={6}>6 Months</Radio.Button>
+              <Radio.Button value={12}>12 Months</Radio.Button>
               </Radio.Group>
             </div>
         </div>
