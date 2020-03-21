@@ -12,14 +12,13 @@ app.prepare()
   server.options('*', cors()) 
   
   server.use(express.static('public'))
-
-  
-  server.get('*/:sent', (req, res) => {
-    return app.render(req, res, '/', { sent: req.params.sent })
-  })
   
   server.get('*', (req, res) => {
     return handle(req, res)
+  })
+
+  server.post('/', function (req, res) {
+    res.send('POST request to homepage')
   })
     
   server.listen(port, (err) => {

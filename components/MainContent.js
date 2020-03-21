@@ -108,7 +108,7 @@ const MainContent = (props) => {
             onChange={(e) => {setPrice(e)}}
             step={0.01}
           />
-          <span>${10000}</span>
+          <span>${price }</span>
           </div>
           <Slider
             min={100}
