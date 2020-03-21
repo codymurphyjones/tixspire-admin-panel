@@ -2,29 +2,55 @@
 import react, {useState} from "react"
 import RequestDetails from "./RequestDetails"
 import 'antd/dist/antd.css';
-import { Tabs, Icon, Modal } from 'antd';
+import { Tabs, Modal,Radio,List, Avatar,Slider, InputNumber } from 'antd';
 import {useWindowDimensions} from "../tool/hooks"
-
+import {axios} from "axios"
 import {IoIosAdd, IoIosBackspace} from "react-icons/io";
+import ApiRequest, {createProduct} from "./ApiRequest";
 
+ApiRequest();
 const { TabPane } = Tabs;
 
-function callback(key) {
-  console.log(key);
-}
+
+
+const generatePlan = (plan_name, price, billing_period, billing_period_num=1) => ({
+  "product_id": "5d8de292e05efd2ec02232e6",
+  "plan_name": plan_name,
+  "plan_code": plan_name,
+  "billing_cycle": "specific",
+  "billing_cycle_num": "2",
+  "price": price,
+  "billing_period": billing_period,
+  "billing_period_num": billing_period_num,
+  "plan_active": "true"
+});
+
 
 const MainContent = (props) => {
     const { height, width } = useWindowDimensions();
     const [showModal, setModal] = useState(false)
-	console.log(width);
+    const [product_name, setProductName] = useState("Product Test 3");
+    const [product_description, setProductDescription] = useState("product description 3");
+    const [redirect_url, setRedirectUrl] = useState("www.exampledomain.com 3");
+    const [schedule, setSchedule] = useState("Weekly");
+    const [duration, setDuration] = useState("3 Months");
+    const [planCount,setPlanCount] = useState(0);
+    const [price,setPrice] = useState(900);
+
+    const [plans, setPlans] = useState([
+    ]);
 
 	let actualWidth = "70%"
-	let show = true;
-	console.log(props.selected);
+  let show = true;
 
 
     const handleOk = () => {
-        setModal(false);
+      console.log(product_name)
+      console.log(product_description)
+      console.log(redirect_url)
+
+      createProduct(product_name,product_description,redirect_url);
+      setModal(false);
     }
 
 	if(width < 720) {
@@ -32,7 +58,8 @@ const MainContent = (props) => {
 
 		if(!props.selected)
             show = false;
-	}
+  }
+  let listRenders = 0;
 
 	return show ? (
         <>
@@ -54,9 +81,90 @@ const MainContent = (props) => {
           onOk={handleOk}
           onCancel={handleOk}
         >
-          <p>Product</p><input />
-          <p>Description</p><input />
-          <p>Price</p><input />
+          <div style={{display: "flex", flexDirection: "row", justifyContent: "space-around"}}>
+          <div><p>Product</p><input value={product_name} onChange={(e) => {
+            setProductName(e.target.value);
+
+          }} /></div>
+
+<div><p>URL</p>
+          <input value={redirect_url} onChange={(e) => {
+            setRedirectUrl(e.target.value);
+
+          }}/></div>
+          </div>
+          <div style={{display: "flex", flexDirection: "row", justifyContent: "space-around"}}>
+          <div><p>Description</p><input value={product_description} onChange={(e) => {
+            setProductDescription(e.target.value);
+           
+
+          }}/> </div>
+          </div>
+          <div style={{border: "1px solid #000", borderRadius: "10px", padding: "5px", marginTop: 10}}>
+          <div style={{ flexDirection: "column", width: "95%", justifyContent: "space-around", marginTop: 10, marginBottom: 10, textAlign: "center"}}>
+          <InputNumber
+            min={100}
+            max={3000}
+            style={{ marginLeft: 16 }}
+            value={price}
+            onChange={(e) => {setPrice(e)}}
+            step={0.01}
+          />
+          <Slider
+            min={100}
+            max={3000}
+            onChange={(e) => {setPrice(e)}}
+            step={0.01}
+            value={typeof price === 'number' ? price : 0}
+            style={{width: "100%"}}
+          />
+          </div>
+          <div>
+          <div style={{float: 'left', width: "70%"}}>
+            <div><Radio.Group value={schedule} onChange={(e) => {setSchedule(e.target.value);}}  style={{marginTop:10, width: "100%"}}defaultValue="a" buttonStyle="solid">
+                <Radio.Button value="Weekly">Weekly</Radio.Button>
+                <Radio.Button value="Biweekly">Biweekly</Radio.Button>
+                <Radio.Button value="Monthly">Monthly</Radio.Button>
+                </Radio.Group>
+              </div>
+
+          <div>
+              <Radio.Group value={duration} onChange={(e) => {setDuration(e.target.value);}} style={{marginTop:10, width: "100%"}}defaultValue="a" buttonStyle="solid">
+              <Radio.Button value="3 Months">3 Months</Radio.Button>
+              <Radio.Button value="6 Months">6 Months</Radio.Button>
+              <Radio.Button value="12 Months">12 Months</Radio.Button>
+              </Radio.Group>
+            </div>
+        </div>
+
+        <div style={{float: 'right'}} onClick={() => {console.log("Add"); setPlanCount(planCount + 1); setPlans([...plans,{
+        title: 'Plan ' + (planCount + 1),
+        description: "A plan ranging across " + duration + " requiring a payment " + schedule +", until $" + price + " has been repaid",
+        schedule: schedule,
+        duration: duration
+      }])}}><IoIosAdd size={50}/></div>
+        </div>
+        <div style={{display: "flex", width: "100%"}}>
+          <br />
+          <br />
+        </div>
+        </div>
+
+          <List
+    itemLayout="horizontal"
+    dataSource={plans}
+    renderItem={item => {
+      listRenders++;
+      return (
+      <List.Item>
+        <List.Item.Meta
+          avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+          title={<a href="https://ant.design">Plan {listRenders}</a>}
+          description={item.description}
+        />
+      </List.Item>
+    )}}
+  />
         </Modal>
 		
 		</div></>) : <> </> ;

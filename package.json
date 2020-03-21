@@ -20,8 +20,10 @@
   },
   "homepage": "https://github.com/codymurphyjones/CodyChristmas#readme",
   "dependencies": {
+    "@ant-design/icons": "^4.0.3",
     "@zeit/next-css": "^1.0.1",
     "antd": "^3.26.9",
+    "axios": "^0.19.2",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "next": "^9.1.6",
