@@ -2,7 +2,7 @@
 import react, {useState} from "react"
 import RequestDetails from "./RequestDetails"
 import 'antd/dist/antd.css';
-import { Tabs, Modal,Radio,List, Avatar,Slider, InputNumber } from 'antd';
+import { Tabs, Modal,Radio,List, Avatar,Slider, InputNumber, Checkbox } from 'antd';
 import {useWindowDimensions} from "../tool/hooks"
 import {axios} from "axios"
 import {IoIosAdd, IoIosBackspace} from "react-icons/io";
@@ -23,9 +23,10 @@ const MainContent = (props) => {
     const [product_description, setProductDescription] = useState("product description 3");
     const [redirect_url, setRedirectUrl] = useState("www.exampledomain.com 3");
     const [schedule, setSchedule] = useState("Weekly");
-    const [duration, setDuration] = useState(3);
+    const [duration, setDuration] = useState(4);
     const [planCount,setPlanCount] = useState(0);
     const [price,setPrice] = useState(900);
+    const [installment,setInstallment] = useState(100);
 
     const [plans, setPlans] = useState([
     ]);
@@ -108,7 +109,9 @@ const MainContent = (props) => {
             onChange={(e) => {setPrice(e)}}
             step={0.01}
           />
-          <span>${price }</span>
+          
+          <span>${ ((price - price * .1) / (schedule == "Monthly" ? duration : (schedule == "Weekly" ? duration * 4 : duration * 2))).toFixed(2)  }</span>
+          <span>Fee: ${(price * .1 ).toFixed(2)}</span>
           </div>
           <Slider
             min={100}
@@ -130,19 +133,21 @@ const MainContent = (props) => {
 
           <div>
               <Radio.Group value={duration} onChange={(e) => {setDuration(e.target.value);}} style={{marginTop:10, width: "100%"}}defaultValue="a" buttonStyle="solid">
-              <Radio.Button value={3}>3 Months</Radio.Button>
+              <Radio.Button value={4}>4 Months</Radio.Button>
               <Radio.Button value={6}>6 Months</Radio.Button>
-              <Radio.Button value={12}>12 Months</Radio.Button>
+
               </Radio.Group>
             </div>
         </div>
 
-        <div style={{float: 'right'}} onClick={() => {console.log("Add"); setPlanCount(planCount + 1); setPlans([...plans,{
+        <div style={{float: 'right', display: "flex", flexDirection: "column", height: "100%", justifyContent: "space-between"}} >
+        <div onClick={() => {console.log("Add"); setPlanCount(planCount + 1); setPlans([...plans,{
         title: 'Plan ' + (planCount + 1),
         description: "A plan ranging across " + duration + " requiring a payment " + schedule +", until $" + price + " has been repaid",
         schedule: schedule,
         duration: duration
       }])}}><IoIosAdd size={50}/></div>
+      <Checkbox onChange={()=>{console.log("Test")} }checked={true}>Waive Fee</Checkbox></div>
         </div>
         <div style={{display: "flex", width: "100%"}}>
           <br />

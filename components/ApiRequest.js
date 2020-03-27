@@ -47,9 +47,10 @@ async function getPlans(id) {
 }
 
 export const generatePlan = (plan_name, price, billing_period, billing_period_num=1) => ({
-  "product_id": "5e75e79970dbd219cd252c63",
+  "product_id": "5e76985a5f048819e473d14d",
   "plan_name": plan_name,
   "plan_code": plan_name,
+  "plan_description": "This is a plan description",
   "billing_cycle": "specific",
   "billing_cycle_num": "2",
   "price": price,
@@ -95,9 +96,9 @@ export async function createPlan(plan_object) {
 
 const ApiRequest = () => {
     console.log("Test")
-    getPlans("5e58827bc73dc90aa13ad8a1");
-    createProduct("Product Test 2","product description","www.exampledomain.com");
+    getPlans("5e717a1ee6343a398594a6fd");
+    //createProduct("Product Test 2","product description","www.exampledomain.com");
+    //getProduct("5e717a1ee6343a398594a6fd");
 }
-
           
   export default ApiRequest
