@@ -7,6 +7,6 @@
   text-align: center;
 }
 
-#__next {
+#__next, html, body {
   height: 100%;
 }

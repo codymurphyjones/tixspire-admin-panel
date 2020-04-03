@@ -1,9 +1,9 @@
 
 import react from "react"
-import TicketComponent from "../components/TicketComponent"
 import 'antd/dist/antd.css';
 import { Tabs } from 'antd';
-import {useWindowDimensions} from "../tool/hooks"
+import {useWindowDimensions} from "../utils/hooks"
+import TicketComponent from "../components/TicketComponent"
 
 const { TabPane } = Tabs;
 
@@ -34,22 +34,17 @@ const Applications = (props) => {
 	return (
 	<div style={{width: actualWidth, maxWidth: actualWidth, float: 'left',display:currentDisplay}}>
 	<Tabs style={{height: "100%"}} defaultActiveKey="1" onChange={callback}>
-		<TabPane tab="Req" key="1">
-			<TicketComponent onClick={props.PressButton(1)} />
-			<TicketComponent />
-			<TicketComponent />
-			<TicketComponent />
-			<TicketComponent />
-			<TicketComponent />
+		<TabPane tab="Message Queue" key="1">
+			<TicketComponent onClick={() => props.showModal("ShowRequest")} />
+			<TicketComponent onClick={() => props.showModal("ShowRequest")} />
+			<TicketComponent onClick={() => props.showModal("ShowRequest")} />
+			<TicketComponent onClick={() => props.showModal("ShowRequest")} />
+			<TicketComponent onClick={() => props.showModal("ShowRequest")} />
+			<TicketComponent onClick={() => props.showModal("ShowRequest")} />
+			<TicketComponent onClick={() => props.showModal("ShowRequest")} />
+			<TicketComponent onClick={() => props.showModal("ShowRequest")} />
 		</TabPane>
-		<TabPane tab="Pur" key="2">
-			<TicketComponent />
-			<TicketComponent />
-			<TicketComponent />
-			<TicketComponent />
-			<TicketComponent />
-			<TicketComponent />
-		</TabPane>
+		
 	</Tabs>
         </div>);
 }

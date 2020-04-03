@@ -21,15 +21,21 @@
   "homepage": "https://github.com/codymurphyjones/CodyChristmas#readme",
   "dependencies": {
     "@ant-design/icons": "^4.0.3",
+    "@react-navigation/core": "^5.3.1",
+    "@react-navigation/web": "^1.0.0-alpha.9",
     "@zeit/next-css": "^1.0.1",
     "antd": "^3.26.9",
     "axios": "^0.19.2",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "firebase": "^7.13.1",
+    "js-sha256": "^0.9.0",
     "next": "^9.1.6",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-icons": "^3.9.0",
+    "react-navigation-transitions": "^1.0.12",
+    "react-router-dom": "^5.1.2",
     "worker-farm": "^1.7.0"
   }
 }

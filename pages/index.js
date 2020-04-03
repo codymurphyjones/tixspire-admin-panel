@@ -1,38 +1,43 @@
 
-import react, {useState} from "react"
+
 import './style.css'
-import TicketComponent from "../components/TicketComponent"
-import Applications from "../components/Applications"
-import MainContent from "../components/MainContent"
-import 'antd/dist/antd.css';
-import { Tabs, Icon, Alert } from 'antd';
-import {useWindowDimensions} from "../tool/hooks"
 
-const { TabPane } = Tabs;
+// Main.js
+import React, {useState, useEffect} from 'react';
+import { useRouter } from 'next/router'
 
-function callback(key) {
-  console.log(key);
-}
 
-const FullHeightPage = (props) => {
-	const { height, width } = useWindowDimensions();
-	console.log(width);
-	const [selected,setSelected] = useState(false);
-	const [selectedId,setSelectedId] = useState(null);
+import { auth } from "../src/utils/firebase"
+  
 
-	const setSelectedVals = (id) => {
-		if(!id)
-			setSelected(false);
-		else
-			setSelected(true);
-		setSelectedId(id || -1);
-	}
 
-  return (<div style={{height: "100%"}}>
-	  	<Applications PressButton={(id)=>{return () => {setSelected(true); setSelectedId(id); console.log("Test")}}} selected={selected} />
-		<MainContent goBack={() => {setSelectedVals()}} selected={selected} />
-		</div>
-		  )
+
+const Index = (props) => {
+
+  const [authval,setAuth] = useState(false);
+  const router = useRouter();
+
+    useEffect(() => {
+      let unsubscribe = auth.onAuthStateChanged(function(userAuth) {
+        if(userAuth) {
+          console.log("Login Success");
+          router.push("/admin");
+        }
+        else {
+          router.push("/admin");
+        }
+      });
+      
+      return () => {
+        unsubscribe();
+      }
+  }, [])
+
+
+
+
+  return <div></div>
+		  
 }
           
-  export default FullHeightPage
+  export default Index

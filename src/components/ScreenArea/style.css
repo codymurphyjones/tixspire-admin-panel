@@ -1,0 +1,14 @@
+.container {
+	flex: 1; 
+	height: "100%"; 
+	background-color: "#FFF";
+	overflow-y: scroll;
+	margin: 'auto'; 
+	scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+}
+
+.container::-webkit-scrollbar { /* WebKit */
+    width: 0;
+    height: 0;
+}

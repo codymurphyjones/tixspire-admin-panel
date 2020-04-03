@@ -4,7 +4,7 @@ let username = "5145db71bf82699f1286";
 let password = "b90ee0552245d7a4e5699480f1573ceb";
 
 async function getProducts() {
-    console.log("I happen")
+    
   try {
     const response = await axios.get('https://payments.pabbly.com/api/v1/products',{
         auth: {
@@ -16,20 +16,6 @@ async function getProducts() {
   } catch (error) {
     console.error(error);
   }
-}
-
-async function testConnection() {
-    try {
-        const response = await axios.get('https://payments.pabbly.com/api/v1/products/',{
-            auth: {
-                username: username,
-                password: password
-            }
-        } );
-        console.log(response.data);
-      } catch (error) {
-        console.error(error);
-      }
 }
 
 async function getPlans(id) {
