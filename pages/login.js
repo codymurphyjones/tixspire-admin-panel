@@ -16,7 +16,7 @@ const Login = (props) => {
           router.push("/admin");
         }
         else {
-          
+          router.push("/admin");
         }
       });
       
