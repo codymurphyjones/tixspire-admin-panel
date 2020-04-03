@@ -37,7 +37,7 @@ const AdminPanel = (props) => {
 		let unsubscribe = auth.onAuthStateChanged(function(userAuth) {
 		
 		  if(!userAuth) {
-			router.push("/login");
+			//router.push("/login");
 		  }
 		});
 		
