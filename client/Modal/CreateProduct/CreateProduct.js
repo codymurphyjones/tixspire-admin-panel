@@ -22,7 +22,6 @@ const MainContent = (props) => {
     const [price,setPrice] = useState(900.00);
 
     const [plans, setPlans] = useState([
-      "Test"
     ]);
 
     const fee = () => {
