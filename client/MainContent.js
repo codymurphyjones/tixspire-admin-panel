@@ -23,12 +23,12 @@ const MainContent = ({ showModal, ...props}) => {
 		if(!props.selected)
             show = false;
   }
-
+  //<div onClick={() => {showModal("CreatePartner");}}><IoMdPersonAdd size={40} style={{marginTop: 5, marginRight: "5"}}/></div>
 	return show ? (
         <>
             <div style={{height: "100%", textAlign: "center", width: actualWidth, float: 'right', marginTop: 10 }}>
                 <div style={{height: 40, float: 'right', marginRight: 20, display: "flex" }}>
-                    <div onClick={() => {showModal("CreatePartner");}}><IoMdPersonAdd size={40} style={{marginTop: 5, marginRight: "5"}}/></div>
+                    
                     <div onClick={() => {showModal("CreateProduct");}}><IoIosAdd size={50} style={{marginRight: "5" }}/></div>
                     <div onClick={() => {auth.signOut(); console.log("Sign Out")}}><IoIosLogOut size={50} style={{marginRight: "5" }}/></div>
                 </div>
