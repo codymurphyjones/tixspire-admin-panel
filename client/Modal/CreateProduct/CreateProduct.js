@@ -6,6 +6,7 @@ import {IoIosAdd, IoIosRemoveCircle } from "react-icons/io";
 import {createProduct, generatePlan, createPlan} from "../../ApiRequest";
 import { Input  } from 'antd';
 import ParterLookup from "./PartnerLookup"
+import {firestore} from "../../../utils/firebase"
 
 
 const MainContent = (props) => {
@@ -16,10 +17,12 @@ const MainContent = (props) => {
     const [duration, setDuration] = useState(4);
     const [planCount,setPlanCount] = useState(0);
     const [isPartner,setIsPartner] = useState(false);
+    const [partner,setPartner] = useState("");
     const [waiveFee,setWaiveFee] = useState(true);
     const [price,setPrice] = useState(900.00);
 
     const [plans, setPlans] = useState([
+      "Test"
     ]);
 
     const fee = () => {
@@ -68,13 +71,29 @@ const MainContent = (props) => {
       
       createProduct(product_name,product_description,redirect_url).then(db => {
 
+        
+        
         if(db.status != "error") {
+          let productDB = firestore.collection("partners").doc(db.data.id)
+          productDB.set({active: true });
+          console.log(db.data);
+          console.log("I happen");
+
+
+          function run(val,price) {
+            firestore.collection("products").doc(val.id).set({ 
+              checkout_page: val.checkout_page,
+              plan_description: val.plan_description,
+              price: price,
+              partnerId: isPartner ? partner : null
+            })
+          }
           plans.map((item) => {
             console.log(item.description);
             console.log(item.numOfCharges,item.schedule, item.weekly);
             let plan = generatePlan(db.data.id,product_name + " " + item.title, item.cost,item.numOfCharges, item.weekly,item.schedule =="Biweekly" ? 2 : 1, item.deposit, item.description);
 
-            createPlan(plan);
+            createPlan(plan, (val) => run(val, item.finalCost));
           })
         }
       });
@@ -133,7 +152,8 @@ const MainContent = (props) => {
                   placeholder="Partner ID"
                   optionFilterProp="children"
                   disabled={!isPartner} 
-
+                  onChange={(e) => setPartner(e.target.value)}
+                  value={partner}
                   filterOption={(input, option) =>
                   option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                 } />
@@ -200,7 +220,8 @@ const MainContent = (props) => {
               cost: paymentAmount().toFixed(2),
               numOfCharges: getDuration(),
               weekly: weeklyOrBi(),
-              deposit: deposit().toFixed(2)
+              deposit: deposit().toFixed(2),
+              finalCost: finalCost()
 
           }])}}><IoIosAdd size={50}/></div>
         </div>

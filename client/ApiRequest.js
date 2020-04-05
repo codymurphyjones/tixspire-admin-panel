@@ -58,7 +58,7 @@ export const generatePlan = (product_id,plan_name, price,billing_cycle_num, bill
   "currency_code":"USD"
 });
 
-export async function createPlan(plan_object) {
+export async function createPlan(plan_object, callback) {
     try {
       const response = await axios.post('https://payments.pabbly.com/api/v1/plan/create',plan_object,{
           auth: {
@@ -66,7 +66,8 @@ export async function createPlan(plan_object) {
               password: password
           }
       } );
-      console.log(response.data);
+      console.log("Prior to response.data")
+      callback(response.data.data);
     } catch (error) {
       console.error(error);
     }
