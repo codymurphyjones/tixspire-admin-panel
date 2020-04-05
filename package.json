@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "next",
+    "dev": "node ./server.js $PORT",
     "build": "next build",
-    "start": "next start",
+    "next": "next dev",
     "web": "node ./server.js $PORT"
   },
   "repository": {
@@ -25,10 +25,12 @@
     "@react-navigation/web": "^1.0.0-alpha.9",
     "@zeit/next-css": "^1.0.1",
     "antd": "^3.26.9",
+    "asana": "^0.18.3",
     "axios": "^0.19.2",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "firebase": "^7.13.1",
+    "hubspot": "^2.3.9",
     "js-sha256": "^0.9.0",
     "next": "^9.1.6",
     "react": "^16.12.0",

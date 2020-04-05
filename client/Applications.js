@@ -3,7 +3,7 @@ import react from "react"
 import 'antd/dist/antd.css';
 import { Tabs } from 'antd';
 import {useWindowDimensions} from "../utils/hooks"
-import TicketComponent from "../components/TicketComponent"
+import TicketComponent from "./TicketComponent"
 
 const { TabPane } = Tabs;
 

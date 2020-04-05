@@ -4,6 +4,7 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 import { BrowserRouter, StaticRouter, Switch } from 'react-router-dom';
 
+
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
     const initialProps = await Document.getInitialProps(ctx)

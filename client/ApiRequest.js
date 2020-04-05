@@ -18,6 +18,17 @@ async function getProducts() {
   }
 }
 
+export async function getPartners(callback) {
+    
+  try {
+    const response = await axios.get('/api/partners',{
+    } );
+    callback(response.data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 async function getPlans(id) {
   try {
     const response = await axios.get('https://payments.pabbly.com/api/v1/plans/' + id,{
@@ -32,18 +43,19 @@ async function getPlans(id) {
   }
 }
 
-export const generatePlan = (plan_name, price, billing_period, billing_period_num=1) => ({
-  "product_id": "5e76985a5f048819e473d14d",
+export const generatePlan = (product_id,plan_name, price,billing_cycle_num, billing_period, billing_period_num=1, setup_fee="300", plan_description="") => ({
+  "product_id": product_id,
   "plan_name": plan_name,
   "plan_code": plan_name,
-  "plan_description": "This is a plan description",
   "billing_cycle": "specific",
-  "billing_cycle_num": "2",
+  "billing_cycle_num": billing_cycle_num,
+  "setup_fee": setup_fee,
   "price": price,
   "billing_period": billing_period,
   "billing_period_num": billing_period_num,
   "plan_active": "true",
-  "currency_code": "USD"
+  "plan_description": plan_description,
+  "currency_code":"USD"
 });
 
 export async function createPlan(plan_object) {
@@ -82,7 +94,7 @@ export async function createPlan(plan_object) {
 
 const ApiRequest = () => {
     console.log("Test")
-    getPlans("5e717a1ee6343a398594a6fd");
+    getPlans("5e6931363cd52d59f0aa1a97");
     //createProduct("Product Test 2","product description","www.exampledomain.com");
     //getProduct("5e717a1ee6343a398594a6fd");
 }

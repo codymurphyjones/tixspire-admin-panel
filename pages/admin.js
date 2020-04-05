@@ -1,16 +1,15 @@
 
 import react, {useState, useEffect} from "react"
-import TicketComponent from "../src/components/TicketComponent"
-import Applications from "../src/components/Applications"
-import MainContent from "../src/components/MainContent"
-import Modal from "../src/components/Modal"
-import 'antd/dist/antd.css';
-import './style.css'
+import TicketComponent from "../client/TicketComponent"
+import Applications from "../client/Applications"
+import MainContent from "../client/MainContent"
+import Modal from "../client/Modal"
+
 import { Tabs, Icon, Alert } from 'antd';
 import { useRouter } from 'next/router'
-
-
-import { auth } from "../src/utils/firebase"
+import { auth } from "../utils/firebase"
+import 'antd/dist/antd.css';
+import './style.css'
   
 
 const AdminPanel = (props) => {
@@ -37,7 +36,7 @@ const AdminPanel = (props) => {
 		let unsubscribe = auth.onAuthStateChanged(function(userAuth) {
 		
 		  if(!userAuth) {
-			//router.push("/login");
+			router.push("/login");
 		  }
 		});
 		

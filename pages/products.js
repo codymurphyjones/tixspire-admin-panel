@@ -4,8 +4,6 @@ import { useRouter } from 'next/router'
 import ScreenArea from "../client/ScreenArea"
 import UserAuthentication from '../client/UserAuthentication';
 import { auth } from "../utils/firebase"
-import 'antd/dist/antd.css';
-import './style.css'
 
 const Login = (props) => {
 

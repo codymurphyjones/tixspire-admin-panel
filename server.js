@@ -5,6 +5,9 @@ const dev = process.env.NODE_ENV !== 'production'
 const port = process.argv[2].replace("$PORT", "3000");;
 const app = next({ dev })
 const handle = app.getRequestHandler()
+const serverHandler = require("./server/");
+
+console.log(serverHandler);
 console.log("Starting");
 
 
@@ -19,8 +22,15 @@ app.prepare()
 server.route('/ticketing/*').all(function (req, res) {
     // runs for all HTTP verbs first
     // think of it as route specific middleware!
-    res.send('POST request to homepage');
-    return handle(req, res);
+    
+    return serverHandler.ticketing(req,res);
+  })
+  
+  
+server.route('/api/*').all(function (req, res) {
+    // runs for all HTTP verbs first
+    // think of it as route specific middleware!
+    return serverHandler.api(req,res);
   })
     
   server.get('*', (req, res) => {

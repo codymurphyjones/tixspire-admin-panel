@@ -9,9 +9,7 @@ import { Button, Input, PageHeader  } from 'antd';
 var sha256 = require("js-sha256")
 
 
-function shaAlgorithm(message) {
-  return sha256(message);
-}
+
 
 const UserAuthentication = (props) => {
   const [error,setError] = useState("");
@@ -29,7 +27,7 @@ const UserAuthentication = (props) => {
   const router = useRouter();
 
   async function loginUser() {
-    await auth.signInWithEmailAndPassword(email, shaAlgorithm(password)).then((user)=>{
+    await auth.signInWithEmailAndPassword(email, sha256(password)).then((user)=>{
       if(user) {
         setIsLoading(false)
       }
@@ -37,6 +35,7 @@ const UserAuthentication = (props) => {
         
     }).catch(function(error) {
       var errorMessage = error.message;
+      console.log(error);
       setError(errorMessage);
       setIsLoading(false);
     });

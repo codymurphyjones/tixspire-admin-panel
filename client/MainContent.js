@@ -5,17 +5,10 @@ import { Tabs,Radio,List, Avatar,Slider, InputNumber, Checkbox } from 'antd';
 import {useWindowDimensions} from "../utils/hooks"
 import {axios} from "axios"
 import {IoIosAdd, IoIosBackspace, IoIosLogOut, IoMdPersonAdd} from "react-icons/io";
-import ApiRequest, {createProduct, generatePlan, createPlan} from "./ApiRequest";
+import {createProduct, generatePlan, createPlan} from "./ApiRequest";
 import {auth} from "../utils/firebase"
 import Modal from "./Modal"
 import ViewController from "./ViewController"
-
-ApiRequest();
-const { TabPane } = Tabs;
-
-
-
-
 
 
 const MainContent = ({ showModal, ...props}) => {

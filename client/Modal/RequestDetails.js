@@ -9,10 +9,6 @@ import { Button, Input, PageHeader  } from 'antd';
 
 
 const RequestDetails = (props) => {
-    const [partnerName, setPartnerName] = useState("");
-    const [companyName, setCompanyName] = useState("");
-    const [contactName, setContactName] = useState("");
-    const [primaryContact, setPrimaryContact] = useState("");
 
 
     const handleOk = () => {

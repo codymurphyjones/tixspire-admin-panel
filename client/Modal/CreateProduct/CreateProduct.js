@@ -2,20 +2,17 @@
 import react, {useState} from "react"
 import 'antd/dist/antd.css';
 import { Tabs, Modal,Radio,List, Avatar,Slider, InputNumber, Checkbox, Select } from 'antd';
-import {useWindowDimensions} from "../../utils/hooks"
-import {axios} from "axios"
 import {IoIosAdd, IoIosRemoveCircle } from "react-icons/io";
-import ApiRequest, {createProduct, generatePlan, createPlan} from "../ApiRequest";
-import { Button, Input, PageHeader  } from 'antd';
-
-const { TabPane } = Tabs;
+import {createProduct, generatePlan, createPlan} from "../../ApiRequest";
+import { Input  } from 'antd';
+import ParterLookup from "./PartnerLookup"
 
 
 const MainContent = (props) => {
     const [product_name, setProductName] = useState("");
     const [product_description, setProductDescription] = useState("");
     const [redirect_url, setRedirectUrl] = useState("");
-    const [schedule, setSchedule] = useState("Weekly");
+    const [schedule, setSchedule] = useState("Biweekly");
     const [duration, setDuration] = useState(4);
     const [planCount,setPlanCount] = useState(0);
     const [isPartner,setIsPartner] = useState(false);
@@ -26,24 +23,23 @@ const MainContent = (props) => {
     ]);
 
     const fee = () => {
-      return Number.parseFloat(price * .1);
+      return (waiveFee ? Number.parseFloat(price * .1) : 0.0);
     }
 
     const finalCost = () => {
-      console.log("cost");
       
       return Number.parseFloat(price + fee());
     }
 
-    console.log(finalCost());
-
     const deposit = () => {
-      return (Number.parseFloat(finalCost()) * .43).toFixed(2)
+      return (waiveFee ? ((price * .33) + fee()) : 0.0); ;
     }
 
     const extendedCost = () => {
-      return (finalCost() - Number.parseFloat(deposit())).toFixed(2)
+      return (finalCost() - deposit())
     }
+
+    
 
     
 
@@ -56,13 +52,30 @@ const MainContent = (props) => {
       setPlans([...new_plans]);
     }
 
-    const handleOk = () => {
+    const paymentAmount = () => {
+      return (extendedCost() / (schedule == "Monthly" ? duration : (schedule == "Weekly" ? duration * 4 : duration * 2)))
+    }
 
+    const getDuration = () => {
+      return (schedule == "Monthly" ? duration : (schedule == "Weekly" ? duration * 4 : duration * 2));
+    }
+
+    const weeklyOrBi = () => {
+      return (schedule == "Monthly" ?  "m" : "w")
+    }
+
+    const handleOk = () => {
+      
       createProduct(product_name,product_description,redirect_url).then(db => {
 
-        if(db.status == "error") {
-          let plan = generatePlan("Plan 1", "100", schedule == "Weekly" ? "w" : "m", schedule == "Biweekly" ? 2 : 1);
-          createPlan(plan);
+        if(db.status != "error") {
+          plans.map((item) => {
+            console.log(item.description);
+            console.log(item.numOfCharges,item.schedule, item.weekly);
+            let plan = generatePlan(db.data.id,product_name + " " + item.title, item.cost,item.numOfCharges, item.weekly,item.schedule =="Biweekly" ? 2 : 1, item.deposit, item.description);
+
+            createPlan(plan);
+          })
         }
       });
       props.hide();
@@ -103,7 +116,7 @@ const MainContent = (props) => {
             </div>
 
             <div>
-                <Input placeholder={"Description"} value={product_name} onChange={(e) => {
+                <Input placeholder={"Description"} value={product_description} onChange={(e) => {
                   setProductDescription(e.target.value);
 
                 }} />
@@ -114,7 +127,7 @@ const MainContent = (props) => {
           <div style={{display: "flex", flexDirection: "row", justifyContent: "space-around", margin: "15px 0px"}}>
            
             <div>
-                <Select
+                <ParterLookup
                   showSearch
                   style={{ width: 200 }}
                   placeholder="Partner ID"
@@ -123,15 +136,11 @@ const MainContent = (props) => {
 
                   filterOption={(input, option) =>
                   option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                }>
-                      <Option value="jack">Jack</Option>
-                      <Option value="lucy">Lucy</Option>
-                      <Option value="tom">Tom</Option>
-                </Select>
+                } />
             </div>
             <div style={{display: "flex", margin: "0px 20px"}}>
                 <p style={{margin: "auto auto"}}>
-                    <span style={{fontWeight: "bold"}}>Total Deposit </span> ${deposit()}
+                    <span style={{fontWeight: "bold"}}>Fee</span> ${fee().toFixed(2)}
                     </p> 
             </div>
           </div>
@@ -143,14 +152,14 @@ const MainContent = (props) => {
                 <InputNumber
                   min={100}
                   max={3000}
-                  style={{ marginLeft: 16 }}
+                  style={{ marginLeft: 16, marginTop: 6 }}
                   value={price}
                   onChange={(e) => {setPrice(e)}}
                   step={0.01}
                 />
           
-                <span>${ ((price - price * .1) / (schedule == "Monthly" ? duration : (schedule == "Weekly" ? duration * 4 : duration * 2))).toFixed(2)  }</span>
-                <span>Fee: ${(price * .1 ).toFixed(2)}</span>
+                <div style={{display: "flex", flexDirection: "column"}}><span style={{fontWeight: "bold"}}>Payment</span>${  paymentAmount().toFixed(2) }</div>
+                <div style={{display: "flex", flexDirection: "column"}}><span style={{fontWeight: "bold"}}>Total Cost</span> ${finalCost().toFixed(2)}</div>
               
               </div>
               <Slider
@@ -166,7 +175,7 @@ const MainContent = (props) => {
           <div>
           <div style={{float: 'left', width: "70%"}}>
             <div><Radio.Group value={schedule} onChange={(e) => {setSchedule(e.target.value);}}  style={{marginTop:10, width: "100%"}}defaultValue="a" buttonStyle="solid">
-                <Radio.Button value="Weekly">Weekly</Radio.Button>
+                
                 <Radio.Button value="Biweekly">Biweekly</Radio.Button>
                 <Radio.Button value="Monthly">Monthly</Radio.Button>
                 </Radio.Group>
@@ -180,19 +189,27 @@ const MainContent = (props) => {
               </Radio.Group>
             </div>
         </div>
-
+        
         <div style={{float: 'right', display: "flex", flexDirection: "column", height: "100%", justifyContent: "space-between"}} >
-        <div onClick={() => {console.log("Add"); setPlanCount(planCount + 1); setPlans([...plans,{
-        title: 'Plan ' + (planCount + 1),
-        description: "A plan ranging across " + duration + " months requiring a payment " + schedule +", until $" + price + " has been repaid. An initial deposit of $" +  (price * .43).toFixed(2) + " is required.",
-        schedule: schedule,
-        duration: duration
-      }])}}><IoIosAdd size={50}/></div>
-      <Checkbox onChange={(e)=>{setWaiveFee(e.target.checked)} }checked={waiveFee}>Waive Fee</Checkbox></div>
+          <Checkbox onChange={(e)=>{setWaiveFee(e.target.checked)} }checked={waiveFee}>Waive Fee</Checkbox></div>
+          <div onClick={() => {console.log("Add"); setPlanCount(planCount + 1); setPlans([...plans,{
+              title: 'Plan ' + (planCount + 1),
+              description: "A plan ranging across " + duration + " months requiring a payment of $" + paymentAmount().toFixed(2) + " " + schedule +", until $" + finalCost().toFixed(2) + " has been repaid. An initial deposit of $" +  deposit().toFixed(2) + " is required.",
+              schedule: schedule,
+              duration: duration,
+              cost: paymentAmount().toFixed(2),
+              numOfCharges: getDuration(),
+              weekly: weeklyOrBi(),
+              deposit: deposit().toFixed(2)
+
+          }])}}><IoIosAdd size={50}/></div>
         </div>
-        <div style={{display: "flex", width: "100%"}}>
+        <div style={{display: "flex", width: "100%", flexDirection: "column", justifyContent: "space-around", marginTop: 20, marginBottom: 10, textAlign: "center"}}>
           <br />
-          <br />
+          <div style={{display: "flex", flexDirection: "row", justifyContent: "space-around", textAlign: "center"}}>
+          <div style={{display: "flex", flexDirection: "column"}}><span style={{fontWeight: "bold"}}>Deposit:</span> ${deposit().toFixed(2)}</div>
+          <div style={{display: "flex", flexDirection: "column"}}><span style={{fontWeight: "bold"}}>Remaining Cost</span> ${extendedCost().toFixed(2)}</div>
+          </div>
         </div>
         </div>
 

@@ -9,11 +9,14 @@ import { Button, Input, PageHeader  } from 'antd';
 
 
 const CreatePartner = (props) => {
-    const [partnerName, setPartnerName] = useState("");
+    const [partnerName, setPartnerNameInternal] = useState("");
     const [companyName, setCompanyName] = useState("");
     const [contactName, setContactName] = useState("");
     const [primaryContact, setPrimaryContact] = useState("");
 
+    const setPartnerName = (val) => {
+      setPartnerNameInternal(val.toLowerCase().replace(/ /,"-"));
+    }
 
     const handleOk = () => {
       props.hide();
@@ -31,17 +34,18 @@ const CreatePartner = (props) => {
           onCancel={handleCancel}
         >
           <div style={{display: "flex", flexDirection: "row", justifyContent: "space-around"}}>
-                <div style={{marginTop: 10}}>
-                    <Input value={partnerName} placeholder={"Partner Name"} onChange={e => {
-                        setPartnerName(e.target.value.replace(/ /,""));
-                    }} />
-                </div>
-
-                <div style={{marginTop: 10}}>
+             <div style={{marginTop: 10}}>
                     <Input placeholder={"Company Name"} value={companyName} onChange={e => {
                         setCompanyName(e.target.value);
+                        setPartnerName(e.target.value.replace(/ /,"-"));
                     }} />
                 </div> 
+
+                <div style={{marginTop: 10}}>
+                    <Input value={partnerName} placeholder={"Partner Name"} onChange={e => {
+                        setPartnerName(e.target.value.replace(/ /,"-"));
+                    }} />
+                </div>
           </div>
 
           <div style={{display: "flex", flexDirection: "row", justifyContent: "space-around"}}>
