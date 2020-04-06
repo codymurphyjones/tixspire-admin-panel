@@ -41,10 +41,6 @@ const MainContent = (props) => {
       return (finalCost() - deposit())
     }
 
-    
-
-    
-
 
     const deletePlan = (index) => {
       let new_plans = plans;
