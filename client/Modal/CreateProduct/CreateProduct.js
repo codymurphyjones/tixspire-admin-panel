@@ -69,19 +69,18 @@ const MainContent = (props) => {
     const handleOk = () => {
       
       createProduct(product_name,product_description,redirect_url).then(db => {
-
+        
         
         
         if(db.status != "error") {
-          let productDB = firestore.collection("partners").doc(db.data.id)
-          productDB.set({active: true });
+          let productDB = firestore.collection("products").doc(db.data.id)
+          productDB.set({active: true,  count: -0 });
           console.log(db.data);
           console.log("I happen");
 
 
           function run(val,price) {
-            firestore.collection("products").doc(val.id).set({ 
-              count: -0,
+            productDB.collection("plans").doc(val.id).set({ 
               checkout_page: val.checkout_page,
               plan_description: val.plan_description,
               price: price,
