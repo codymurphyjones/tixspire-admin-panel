@@ -81,6 +81,7 @@ const MainContent = (props) => {
 
           function run(val,price) {
             firestore.collection("products").doc(val.id).set({ 
+              count: -0,
               checkout_page: val.checkout_page,
               plan_description: val.plan_description,
               price: price,

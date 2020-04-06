@@ -5,7 +5,7 @@ const hubspot = new Hubspot({
 })
 
 
-function getCompanies(res,value=[],hasMore = false, offset = 0) {
+function getPartners(res,value=[],hasMore = false, offset = 0) {
 	hubspot.companies.get({hasMore, offset, properties: ["name","type"]})
   		.then(results => {
 				let companies = []
@@ -20,7 +20,7 @@ function getCompanies(res,value=[],hasMore = false, offset = 0) {
 				
 				val =[ ...value,...companies ]
 				if(results["has-more"]) {
-					getCompanies(res,val,results["has-more"],results["offset"])
+					getPartners(res,val,results["has-more"],results["offset"])
 				}
 				else {
 				
@@ -39,7 +39,7 @@ const Main = (req,res) => {
 
 	switch(route) {
 		case "partners":
-			getCompanies(res);
+			getPartners(res);
 		break;
 
 		default:
