@@ -72,7 +72,7 @@ const Login = (props) => {
           console.log(item);
             return <div style={{margin: '10px 10px'}} key={index}>
                       <b>Id:</b> {item.id} <br />
-                      <b>url:</b> {item.checkout_page} <br />
+                      <b>url:</b> <a href={item.checkout_page}>{item.checkout_page}</a> <br />
                       <b>Inventory:</b> {item.count} <br />
                       <b>PartnerId:</b> {item.partnerId} <br />
                       <b>Description:</b> {item.plan_description} <br />
