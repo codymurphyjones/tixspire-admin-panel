@@ -69,7 +69,6 @@ const Login = (props) => {
     if(process.browser) 
         window.open(url, '_blank');
   }
-  [].concat(pageData).sort((a, b) => {console.log(a); return a.price < b.cost}).map((item) => console.log(item));
 
   return (
     <ScreenArea backgroundColor="#fff">
@@ -79,7 +78,7 @@ const Login = (props) => {
       </h1>
   <div><h3>Plan Description: </h3> {plan_description != "" ? plan_description : <br />}</div>
       <PricingTable highlightColor='#1976D2'>
-        {[].concat(pageData).sort((a, b) => a.price > b.cost).map((item, index) => {
+        {[].concat(pageData).sort((a, b) => a.price > b.price).map((item, index) => {
          
             return (<PricingSlot highlighted={mouseOverIndex == index ? true : false}  onMouseEnter={()=> setmouseOverIndex(index)}
                                  onClick={()=> onClick(item.checkout_page)} 

@@ -79,19 +79,23 @@ const MainContent = (props) => {
           duration: duration,
           cost: "900.00" });
 
-          function run(val,price) {
-            console.log(val);
+          function run(val,item) {
+            console.log(item);
+            let {schedule,duration,numOfCharges,weekly,deposit} = item;
             productDB.collection("plans").doc(val.id).set({ 
               checkout_page: val.checkout_page,
               plan_description: val.plan_description,
               price: val.price,
-              partnerId: isPartner ? partner : null
+              partnerId: isPartner ? partner : null,
+              schedule: schedule,
+              duration: duration,
+              deposit
             })
           }
           myplans.map((item) => {
             let plan = generatePlan(db.data.id,product_name + " " + item.title, item.cost,item.numOfCharges, item.weekly,item.schedule =="Biweekly" ? 2 : 1, item.deposit, item.description);
 
-            createPlan(plan, (val) => run(val, item.finalCost));
+            createPlan(plan, (val) => run(val, item));
           })
           
           createPlan(generateStandardPlan(db.data.id, product_name + " Standard Plan",price), (val) => run(val, price));
@@ -222,7 +226,7 @@ const MainContent = (props) => {
           <Checkbox onChange={(e)=>{setWaiveFee(e.target.checked)} } checked={waiveFee}>Waive Fee</Checkbox></div>
           <div onClick={() => {console.log("Add"); setPlanCount(planCount + 1); setPlans([...plans,{
               title: 'Plan ' + (planCount + 1),
-              description: "A plan ranging across " + duration + " months requiring a payment of $" + paymentAmount().toFixed(2) + " " + schedule +", until $" + finalCost().toFixed(2) + " has been repaid. An initial deposit of $" +  deposit().toFixed(2) + " is required.",
+              description: "A plan ranging across " + duration + " months requiring a payment of $" + paymentAmount().toFixed(2) + " " + schedule +", until $" + finalCost().toFixed(2) + " has been repaid. An initial deposit + payment of $" +  deposit().toFixed(2) + " is required.",
               schedule: schedule,
               duration: duration,
               cost: paymentAmount().toFixed(2),
@@ -236,7 +240,7 @@ const MainContent = (props) => {
         <div style={{display: "flex", width: "100%", flexDirection: "column", justifyContent: "space-around", marginTop: 20, marginBottom: 10, textAlign: "center"}}>
           <br />
           <div style={{display: "flex", flexDirection: "row", justifyContent: "space-around", textAlign: "center"}}>
-          <div style={{display: "flex", flexDirection: "column"}}><span style={{fontWeight: "bold"}}>Deposit:</span> ${deposit().toFixed(2)}</div>
+          <div style={{display: "flex", flexDirection: "column"}}><span style={{fontWeight: "bold"}}>Pabbly Set Up Fee:</span> ${deposit().toFixed(2)}</div>
           <div style={{display: "flex", flexDirection: "column"}}><span style={{fontWeight: "bold"}}>Remaining Cost</span> ${extendedCost().toFixed(2)}</div>
           </div>
         </div>
