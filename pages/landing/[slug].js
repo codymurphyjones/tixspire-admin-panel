@@ -2,6 +2,8 @@
 import React, {useEffect, useState} from 'react';
 import { useRouter } from 'next/router'
 import ScreenArea from "../../client/ScreenArea"
+import {PricingTable, PricingSlot, PricingDetail} from 'react-pricing-table';
+import ReactTooltip from 'react-tooltip'
 /*
 import { auth } from "../../utils/firebase"*/
 import 'antd/dist/antd.css';
@@ -13,7 +15,10 @@ const Login = (props) => {
   const router = useRouter();
     const { slug } = router.query
     const [pageData, setpageData] = useState([]);
-    //console.log(slug)
+    const [plan_description, setPlanDescription] = useState("");
+    const [mouseOverIndex, setmouseOverIndex] = useState(-1);
+    const [title, setTitle] = useState("Title");
+    
     useEffect(() => {
     if(slug) {
       let product = firestore.collection("products").doc(slug);
@@ -21,10 +26,11 @@ const Login = (props) => {
           if (doc.exists) {
             let data = doc.data();
               if(data.active) {
+                setTitle(data.name);
                 let plans = [];
                 product.collection("plans").get().then(function(querySnapshot) {
                   querySnapshot.forEach(function(doc) {
-                      // doc.data() is never undefined for query doc snapshots
+                      
                       let docData = doc.data()
                       let planData = {
                         id: doc.id, 
@@ -34,24 +40,23 @@ const Login = (props) => {
                         plan_description: docData.plan_description, 
                         price: docData.price
                       }
-                      //console.log(planData);
-                      //console.log(doc.id, " => ", doc.data());
+                      
                       plans.push(planData);
-                      console.log(plans);
+                      
 
                       
                   });
                 }).finally(() =>{
                   let obj = [...plans,...pageData];
-                  console.log(obj)
+                  
                   setpageData(obj);
                 })
                
 
-                //console.log("Document data:", data);
+                
               }
          } else {
-              // doc.data() will be undefined in this case
+              
               console.log("No such document!");
         }
         }).catch(function(error) {
@@ -60,26 +65,34 @@ const Login = (props) => {
   }
 }, [slug]);
 
+  const onClick = (url) => {
+      
+      if(process.browser)
+         window.href = "http://google.com"
+  }
+
   return (
     <ScreenArea backgroundColor="#fff">
       <div style={{margin: '50px 50px'}}>
       <h1>
-            {slug}
+            {title}
       </h1>
-      <div style={{margin: '10px 10px'}}>
+  <div><h3>Plan Description: </h3> {plan_description != "" ? plan_description : <br />}</div>
+      <PricingTable highlightColor='#1976D2'>
         {pageData.map((item, index) => {
-          console.log(index + ": ")
-          console.log(item);
-            return <div style={{margin: '10px 10px'}} key={index}>
-                      <b>Id:</b> {item.id} <br />
-                      <b>url:</b> <a href={item.checkout_page}>{item.checkout_page}</a> <br />
-                      <b>Inventory:</b> {item.count} <br />
-                      <b>PartnerId:</b> {item.partnerId} <br />
-                      <b>Description:</b> {item.plan_description} <br />
-                      <b>Price:</b> {item.price} <br />
-                </div>
+         
+            return (<PricingSlot highlighted={mouseOverIndex == index ? true : false}  onMouseEnter={()=> setmouseOverIndex(index)}
+                                 onClick={()=> console.log("click")} 
+                                 onMouseLeave={()=> setmouseOverIndex(-1)}
+                                 onMouseOver={()=> setPlanDescription(item.plan_description)}
+                                 buttonText='SELECT PLAN' title='ENTERPRISE' priceText={"$" + (item.price / 10).toFixed(2) + "/month"} key={index}>
+                      <PricingDetail><b>Price:</b> ${item.price}</PricingDetail>
+                      <PricingDetail><b>Id:</b> {item.id} </PricingDetail>
+                      <PricingDetail><b>Inventory:</b> {item.count}</PricingDetail>
+                      {item.partnerId ? <PricingDetail><b>PartnerId:</b> {item.partnerId}</PricingDetail> : null}
+                </PricingSlot>)
         })}
-      </div>
+        </PricingTable>
       </div>
     </ScreenArea>
   );

@@ -7,7 +7,7 @@ const app = next({ dev })
 const handle = app.getRequestHandler()
 const serverHandler = require("./server/");
 
-console.log(serverHandler);
+
 console.log("Starting");
 
 

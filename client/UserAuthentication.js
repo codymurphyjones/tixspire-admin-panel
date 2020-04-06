@@ -35,7 +35,6 @@ const UserAuthentication = (props) => {
         
     }).catch(function(error) {
       var errorMessage = error.message;
-      console.log(error);
       setError(errorMessage);
       setIsLoading(false);
     });
@@ -51,7 +50,6 @@ const UserAuthentication = (props) => {
       let unsubscribe = auth.onAuthStateChanged(function(userAuth) {
         
         if(userAuth) {
-          console.log(userAuth);
           console.log("Login Success")
           setAuth(true);
         }
@@ -65,9 +63,7 @@ const UserAuthentication = (props) => {
         unsubscribe();
       }
     }, []);
-  
 
-  console.log(authval);
 
 
   return (() => {	

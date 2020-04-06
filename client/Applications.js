@@ -13,13 +13,10 @@ function callback(key) {
 
 const Applications = (props) => {
 	const { height, width } = useWindowDimensions();
-	console.log(width);
+	
 
 	let actualWidth = "200px"
 	let currentDisplay = "inline-block";
-	console.log(props.selected);
-	console.log(width)
-	console.log("test")
 
 	if(width < 720) {
 		actualWidth = "100%"

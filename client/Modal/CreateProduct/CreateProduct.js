@@ -3,7 +3,7 @@ import react, {useState} from "react"
 import 'antd/dist/antd.css';
 import { Tabs, Modal,Radio,List, Avatar,Slider, InputNumber, Checkbox, Select } from 'antd';
 import {IoIosAdd, IoIosRemoveCircle } from "react-icons/io";
-import {createProduct, generatePlan, createPlan} from "../../ApiRequest";
+import ApiRequest, {createProduct, generatePlan,generateStandardPlan, createPlan} from "../../ApiRequest";
 import { Input  } from 'antd';
 import ParterLookup from "./PartnerLookup"
 import {firestore} from "../../../utils/firebase"
@@ -18,14 +18,14 @@ const MainContent = (props) => {
     const [planCount,setPlanCount] = useState(0);
     const [isPartner,setIsPartner] = useState(false);
     const [partner,setPartner] = useState("");
-    const [waiveFee,setWaiveFee] = useState(true);
+    const [waiveFee,setWaiveFee] = useState(false);
     const [price,setPrice] = useState(900.00);
 
     const [plans, setPlans] = useState([
     ]);
 
     const fee = () => {
-      return (waiveFee ? Number.parseFloat(price * .1) : 0.0);
+      return (!waiveFee ? Number.parseFloat(price * .1) : 0.0);
     }
 
     const finalCost = () => {
@@ -34,7 +34,7 @@ const MainContent = (props) => {
     }
 
     const deposit = () => {
-      return (waiveFee ? ((price * .33) + fee()) : 0.0); ;
+      return (!waiveFee ? ((price * .33) + fee()) : 0.0); ;
     }
 
     const extendedCost = () => {
@@ -51,6 +51,7 @@ const MainContent = (props) => {
     }
 
     const paymentAmount = () => {
+      console.log(extendedCost());
       return (extendedCost() / (schedule == "Monthly" ? duration : (schedule == "Weekly" ? duration * 4 : duration * 2)))
     }
 
@@ -70,26 +71,37 @@ const MainContent = (props) => {
         
         if(db.status != "error") {
           let productDB = firestore.collection("products").doc(db.data.id)
-          productDB.set({active: true,  count: -0 });
-          console.log(db.data);
-          console.log("I happen");
-
+          productDB.set({active: true,  count: -0, name: product_name });
+          var myplans = plans;
+          myplans.push({title: product_name + ": Standard Plan",
+          description: "A plan to pay the full value off in one lump sum",
+          schedule: schedule,
+          duration: duration,
+          cost: "900.00" });
 
           function run(val,price) {
+            console.log(val);
             productDB.collection("plans").doc(val.id).set({ 
               checkout_page: val.checkout_page,
               plan_description: val.plan_description,
-              price: price,
+              price: val.price,
               partnerId: isPartner ? partner : null
             })
           }
-          plans.map((item) => {
-            console.log(item.description);
-            console.log(item.numOfCharges,item.schedule, item.weekly);
+          myplans.map((item) => {
             let plan = generatePlan(db.data.id,product_name + " " + item.title, item.cost,item.numOfCharges, item.weekly,item.schedule =="Biweekly" ? 2 : 1, item.deposit, item.description);
 
             createPlan(plan, (val) => run(val, item.finalCost));
           })
+          
+          createPlan(generateStandardPlan(db.data.id, product_name + " Standard Plan",price), (val) => run(val, price));
+
+          if(process.browser) {
+              setTimeout(function () {
+                window.open('/landing/' + db.data.id, '_blank');
+            }, 1700);
+          }
+          
         }
       });
       props.hide();
@@ -178,6 +190,7 @@ const MainContent = (props) => {
               
               </div>
               <Slider
+                disabled={plans.length > 0}
                 min={100}
                 max={3000}
                 onChange={(e) => {setPrice(e)}}
@@ -206,7 +219,7 @@ const MainContent = (props) => {
         </div>
         
         <div style={{float: 'right', display: "flex", flexDirection: "column", height: "100%", justifyContent: "space-between"}} >
-          <Checkbox onChange={(e)=>{setWaiveFee(e.target.checked)} }checked={waiveFee}>Waive Fee</Checkbox></div>
+          <Checkbox onChange={(e)=>{setWaiveFee(e.target.checked)} } checked={waiveFee}>Waive Fee</Checkbox></div>
           <div onClick={() => {console.log("Add"); setPlanCount(planCount + 1); setPlans([...plans,{
               title: 'Plan ' + (planCount + 1),
               description: "A plan ranging across " + duration + " months requiring a payment of $" + paymentAmount().toFixed(2) + " " + schedule +", until $" + finalCost().toFixed(2) + " has been repaid. An initial deposit of $" +  deposit().toFixed(2) + " is required.",

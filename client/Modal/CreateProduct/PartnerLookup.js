@@ -11,8 +11,6 @@ const MainContent = (props) => {
 
             },[])
 
-            console.log(partners);
-
                return ( <Select
                   { ...props}
                 >

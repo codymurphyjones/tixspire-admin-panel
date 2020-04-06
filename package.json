@@ -37,7 +37,9 @@
     "react-dom": "^16.12.0",
     "react-icons": "^3.9.0",
     "react-navigation-transitions": "^1.0.12",
+    "react-pricing-table": "https://github.com/codymurphyjones/react-pricing-table.git",
     "react-router-dom": "^5.1.2",
+    "react-tooltip": "^4.1.5",
     "worker-farm": "^1.7.0"
   }
 }
