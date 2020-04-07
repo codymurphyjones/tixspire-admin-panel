@@ -10,8 +10,12 @@ import 'antd/dist/antd.css';
 import '../style.css'
 import {firestore} from "../../utils/firebase"
 
+import {useWindowDimensions} from "../../utils/hooks"
+
+
 const Login = (props) => {
 
+  const { height, width } = useWindowDimensions();
   const router = useRouter();
     const { slug } = router.query
     const [pageData, setpageData] = useState([]);
@@ -19,6 +23,24 @@ const Login = (props) => {
     const [plan_description, setPlanDescription] = useState("");
     const [mouseOverIndex, setmouseOverIndex] = useState(0);
     const [title, setTitle] = useState("Title");
+	
+ 
+	let actualWidth = "200px"
+	let currentDisplay = "inline-block";
+
+	if(width < 720) {
+		actualWidth = "100%"
+
+		if(props.selected)
+			currentDisplay = "none";
+  }
+  else
+  {
+    actualWidth = pageData.length > 3 ? "100%" : (pageData.length > 3 ? "75%": "50%")
+  }
+
+
+  
     
     useEffect(() => {
     if(slug) {
@@ -86,7 +108,7 @@ const Login = (props) => {
       </h1>
       <div><h3><b>Description:</b> {description}  </h3></div>
       <div style={{display: "flex", justifyContent: "center", alignContent: "center"}}>
-      <div style={{width: pageData.length > 3 ? "100%" : (pageData.length > 3 ? "75%": "50%")}}>
+      <div style={{width: actualWidth}}>
       <PricingTable highlightColor='#1976D2'>
         {pageData.map((item, index) => {
           if(index == 0 && plan_description == "")
