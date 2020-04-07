@@ -69,7 +69,7 @@ const MainContent = (props) => {
         
         if(db.status != "error") {
           let productDB = firestore.collection("products").doc(db.data.id)
-          productDB.set({active: true,  count: -0, name: product_name });
+          productDB.set({active: true,  count: -1, name: product_name });
           var myplans = plans;
           
           myplans.push({title: product_name + ": Standard Plan",

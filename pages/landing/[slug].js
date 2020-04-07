@@ -66,8 +66,9 @@ const Login = (props) => {
                         plan_description: docData.plan_description, 
                         price: docData.price,
                         schedule: docData.schedule,
+                        pay_detail: docData.schedule.replace("Biweekly", "2w").replace("Monthly", "mo"),
                         deposit: docData.deposit,
-                        duration: docData.deposit
+                        duration: docData.duration
                       }
                       
                       plans.push(planData);
@@ -116,7 +117,7 @@ const Login = (props) => {
             
             return (<PricingSlot highlighted={mouseOverIndex == index ? true : false}  onMouseEnter={()=> {setmouseOverIndex(index); setPlanDescription(item.plan_description)}}
                                  onClick={()=> onClick(item.checkout_page)} 
-                                 buttonText='SELECT PLAN' title={(index == 0) ? "Full Payment" : 'PLAN ' + index} priceText={"$" + item.price.toFixed(2) + ((index == 0) ?  "" : "/" + item.schedule)} key={index}>
+                                 buttonText='SELECT PLAN' title={(index == 0) ? "Full Payment" : item.duration + "mo/" + item.schedule } priceText={"$" + item.price.toFixed(2) + ((index == 0) ?  "" : "/" + item.pay_detail)} key={index}>
                       {index == 0 ? <PricingDetail><br /></PricingDetail> : <PricingDetail><b>Deposit:</b> ${item.deposit}</PricingDetail>}
                       {item.count == -1 ? <PricingDetail><br /></PricingDetail> :  <PricingDetail><b>Inventory:</b> {item.count}</PricingDetail>}
                       {item.partnerId ? <PricingDetail><b>PartnerId:</b> {item.partnerId}</PricingDetail> : null}
