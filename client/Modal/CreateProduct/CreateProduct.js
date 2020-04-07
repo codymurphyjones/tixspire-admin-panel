@@ -45,13 +45,11 @@ const MainContent = (props) => {
     const deletePlan = (index) => {
       let new_plans = plans;
       new_plans.splice(index,1);
-      console.log(new_plans);
 
       setPlans([...new_plans]);
     }
 
     const paymentAmount = () => {
-      console.log(extendedCost());
       return (extendedCost() / (schedule == "Monthly" ? duration : (schedule == "Weekly" ? duration * 4 : duration * 2)))
     }
 
@@ -73,6 +71,7 @@ const MainContent = (props) => {
           let productDB = firestore.collection("products").doc(db.data.id)
           productDB.set({active: true,  count: -0, name: product_name });
           var myplans = plans;
+          
           myplans.push({title: product_name + ": Standard Plan",
           description: "A plan to pay the full value off in one lump sum",
           schedule: schedule,
@@ -87,9 +86,9 @@ const MainContent = (props) => {
               plan_description: val.plan_description,
               price: val.price,
               partnerId: isPartner ? partner : null,
-              schedule: schedule,
-              duration: duration,
-              deposit
+              schedule: schedule || "",
+              duration: duration || "",
+              deposit: deposit || ""
             })
           }
           myplans.map((item) => {
@@ -224,7 +223,7 @@ const MainContent = (props) => {
         
         <div style={{float: 'right', display: "flex", flexDirection: "column", height: "100%", justifyContent: "space-between"}} >
           <Checkbox onChange={(e)=>{setWaiveFee(e.target.checked)} } checked={waiveFee}>Waive Fee</Checkbox></div>
-          <div onClick={() => {console.log("Add"); setPlanCount(planCount + 1); setPlans([...plans,{
+          <div onClick={() => {setPlanCount(planCount + 1); setPlans([...plans,{
               title: 'Plan ' + (planCount + 1),
               description: "A plan ranging across " + duration + " months requiring a payment of $" + paymentAmount().toFixed(2) + " " + schedule +", until $" + finalCost().toFixed(2) + " has been repaid. An initial deposit + payment of $" +  deposit().toFixed(2) + " is required.",
               schedule: schedule,
@@ -250,7 +249,6 @@ const MainContent = (props) => {
     itemLayout="horizontal"
     dataSource={plans}
     renderItem={(item,index) => {
-      console.log(index);
       listRenders++;
       return (
       <List.Item

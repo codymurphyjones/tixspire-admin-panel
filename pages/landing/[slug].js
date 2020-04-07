@@ -38,7 +38,10 @@ const Login = (props) => {
                         count: data.count, 
                         partnerId: docData.partnerId, 
                         plan_description: docData.plan_description, 
-                        price: docData.price
+                        price: docData.price,
+                        schedule: docData.schedule,
+                        deposit: docData.deposit,
+                        duration: docData.deposit
                       }
                       
                       plans.push(planData);
@@ -48,7 +51,8 @@ const Login = (props) => {
                   });
                 }).finally(() =>{
                   let obj = [...plans,...pageData];
-                  
+
+                  obj.sort((a, b) => {console.log(b); return b.price - a.price})
                   setpageData(obj);
                 })
                
@@ -78,14 +82,14 @@ const Login = (props) => {
       </h1>
   <div><h3>Plan Description: </h3> {plan_description != "" ? plan_description : <br />}</div>
       <PricingTable highlightColor='#1976D2'>
-        {[].concat(pageData).sort((a, b) => a.cost > b.cost).map((item, index) => {
+        {pageData.map((item, index) => {
          
             return (<PricingSlot highlighted={mouseOverIndex == index ? true : false}  onMouseEnter={()=> setmouseOverIndex(index)}
                                  onClick={()=> onClick(item.checkout_page)} 
                                  onMouseLeave={()=> setmouseOverIndex(-1)}
                                  onMouseOver={()=> setPlanDescription(item.plan_description)}
-                                 buttonText='SELECT PLAN' title='ENTERPRISE' priceText={"$" + (item.price / 10).toFixed(2) + "/month"} key={index}>
-                      <PricingDetail><b>Price:</b> ${item.price}</PricingDetail>
+                                 buttonText='SELECT PLAN' title={(index == 0) ? "Full Payment" : 'PLAN ' + index} priceText={"$" + item.price.toFixed(2) + ((index == 0) ?  "" : "/" + item.schedule)} key={index}>
+                      {index == 0 ? <PricingDetail><br /></PricingDetail> : <PricingDetail><b>Deposit:</b> ${item.deposit}</PricingDetail>}
                       <PricingDetail><b>Id:</b> {item.id} </PricingDetail>
                       <PricingDetail><b>Inventory:</b> {item.count}</PricingDetail>
                       {item.partnerId ? <PricingDetail><b>PartnerId:</b> {item.partnerId}</PricingDetail> : null}
