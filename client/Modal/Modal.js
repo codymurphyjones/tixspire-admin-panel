@@ -1,7 +1,7 @@
 
 import react, {useState} from "react"
 import CreateProduct from "./CreateProduct"
-import CreatePartner from "./CreatePartner"
+//import CreatePartner from "./CreatePartner"
 import RequestDetails from "./RequestDetails"
 
 
@@ -17,7 +17,7 @@ const MainContent = ({modalType , ...props}) => {
                 break;
                 
                 case "CreatePartner":
-                        ModalComponent = CreatePartner;
+                        //ModalComponent = CreatePartner;
                 break;
 
                 case "ShowRequest":

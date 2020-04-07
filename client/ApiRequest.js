@@ -95,7 +95,8 @@ export async function createPlan(plan_object, callback) {
               password: password
           }
       } );
-      console.log(response.data);
+      
+
       callback(response.data.data);
     } catch (error) {
       console.error(error);

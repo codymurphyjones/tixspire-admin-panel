@@ -15,8 +15,9 @@ const Login = (props) => {
   const router = useRouter();
     const { slug } = router.query
     const [pageData, setpageData] = useState([]);
+    const [description,setDescription] = useState([]);
     const [plan_description, setPlanDescription] = useState("");
-    const [mouseOverIndex, setmouseOverIndex] = useState(-1);
+    const [mouseOverIndex, setmouseOverIndex] = useState(0);
     const [title, setTitle] = useState("Title");
     
     useEffect(() => {
@@ -27,6 +28,9 @@ const Login = (props) => {
             let data = doc.data();
               if(data.active) {
                 setTitle(data.name);
+                console.log("Data")
+                console.log(data);
+                setDescription(data.description);
                 let plans = [];
                 product.collection("plans").get().then(function(querySnapshot) {
                   querySnapshot.forEach(function(doc) {
@@ -80,22 +84,25 @@ const Login = (props) => {
       <h1>
             {title}
       </h1>
-  <div><h3>Plan Description: </h3> {plan_description != "" ? plan_description : <br />}</div>
+      <div><h3><b>Description:</b> {description}  </h3></div>
+      <div style={{display: "flex", justifyContent: "center", alignContent: "center"}}>
+      <div style={{width: pageData.length > 3 ? "100%" : (pageData.length > 3 ? "75%": "50%")}}>
       <PricingTable highlightColor='#1976D2'>
         {pageData.map((item, index) => {
-         
-            return (<PricingSlot highlighted={mouseOverIndex == index ? true : false}  onMouseEnter={()=> setmouseOverIndex(index)}
+          if(index == 0 && plan_description == "")
+                  setPlanDescription(item.plan_description)
+            
+            return (<PricingSlot highlighted={mouseOverIndex == index ? true : false}  onMouseEnter={()=> {setmouseOverIndex(index); setPlanDescription(item.plan_description)}}
                                  onClick={()=> onClick(item.checkout_page)} 
-                                 onMouseLeave={()=> setmouseOverIndex(-1)}
-                                 onMouseOver={()=> setPlanDescription(item.plan_description)}
                                  buttonText='SELECT PLAN' title={(index == 0) ? "Full Payment" : 'PLAN ' + index} priceText={"$" + item.price.toFixed(2) + ((index == 0) ?  "" : "/" + item.schedule)} key={index}>
                       {index == 0 ? <PricingDetail><br /></PricingDetail> : <PricingDetail><b>Deposit:</b> ${item.deposit}</PricingDetail>}
-                      <PricingDetail><b>Id:</b> {item.id} </PricingDetail>
-                      <PricingDetail><b>Inventory:</b> {item.count}</PricingDetail>
+                      {item.count == -1 ? <PricingDetail><br /></PricingDetail> :  <PricingDetail><b>Inventory:</b> {item.count}</PricingDetail>}
                       {item.partnerId ? <PricingDetail><b>PartnerId:</b> {item.partnerId}</PricingDetail> : null}
                 </PricingSlot>)
         })}
         </PricingTable>
+        </div></div>
+        <div><h3>Plan Description: </h3> {plan_description != "" ? plan_description : <br />}</div>
       </div>
     </ScreenArea>
   );
