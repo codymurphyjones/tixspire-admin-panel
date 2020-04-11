@@ -6,7 +6,7 @@ const port = process.argv[2].replace("$PORT", "3000");;
 const app = next({ dev })
 const handle = app.getRequestHandler()
 const serverHandler = require("./server/");
-const {RunServer} = require("../dist/");
+const {RunServer} = require("tixpire-server");
 
 console.log(RunServer);
 
@@ -14,9 +14,6 @@ function handler(req, res) {
 	res.send("Success");
 	return { req, res }
 }
-
-
-RunServer(handler, port)();
 
 
 
