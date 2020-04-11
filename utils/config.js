@@ -13,7 +13,7 @@ let ldefault =  {
 	}
 }
 
-export default {
+module.exports = {
 	firebaseConfig: {
 		apiKey: "AIzaSyCLcZoq4Xj6Q5hRXZ9QykS7v00E77sgYz8",
 		authDomain: "tixpire-a0530.firebaseapp.com",

@@ -6,6 +6,18 @@ const port = process.argv[2].replace("$PORT", "3000");;
 const app = next({ dev })
 const handle = app.getRequestHandler()
 const serverHandler = require("./server/");
+const {RunServer} = require("../dist/");
+
+console.log(RunServer);
+
+function handler(req, res) {
+	res.send("Success");
+	return { req, res }
+}
+
+
+RunServer(handler, port)();
+
 
 
 console.log("Starting");
@@ -27,7 +39,7 @@ server.route('/ticketing/*').all(function (req, res) {
   })
   
   
-server.route('/api/*').all(function (req, res) {
+server.route('/api*').all(function (req, res) {
     // runs for all HTTP verbs first
     // think of it as route specific middleware!
     return serverHandler.api(req,res);
@@ -39,7 +51,7 @@ server.route('/api/*').all(function (req, res) {
 
   server.listen(port, (err) => {
     if (err) throw err
-    console.log('> Ready on http://localhost:3000')
+    console.log('> Ready on http://localhost:' + port)
   })
 })
 .catch((ex) => {

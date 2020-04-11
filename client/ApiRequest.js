@@ -38,7 +38,9 @@ export async function getPartners(callback) {
   try {
     const response = await axios.get('/api/partners',{
     } );
-    
+
+    console.log(response.data)
+    callback(response.data.data);
   } catch (error) {
     console.error(error);
   }

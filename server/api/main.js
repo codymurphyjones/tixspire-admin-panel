@@ -3,6 +3,7 @@ const hubspot = new Hubspot({
   apiKey: '73c6c801-b156-412a-8041-91fd93699507',
   checkLimit: false // (Optional) Specify whether to check the API limit on each call. Default: true
 })
+const webhook = require("./webhook");
 
 
 function getPartners(res,value=[],hasMore = false, offset = 0) {
@@ -36,12 +37,14 @@ const Main = (req,res) => {
 
 	const path = req.originalUrl.replace(req.route.path.slice(0, -2),"");
 	const route = path.split("/")[1];
-
+	console.log(route)
 	switch(route) {
 		case "partners":
 			getPartners(res);
 		break;
 
+		case "webhooks":
+			webhook(res,req);
 		default:
 			res.send("API call is invalid")
 		break;
