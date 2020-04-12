@@ -1,9 +1,6 @@
-//const express = require('express')
-const next = require('next')
-//const cors = require('cors')
 const dev = process.env.NODE_ENV !== 'production'
 const port = process.argv[2].replace("$PORT", "3000");;
-const app = next({ dev })
+const app =  require('next')({ dev })
 const handle = app.getRequestHandler()
 
 const {RunServer} = require("tixpire-server");
@@ -17,7 +14,6 @@ app.prepare()
   console.error(ex.stack)
   process.exit(1)
 }).finally(() => console.log("Server Started"));
-
 
 
 /*
