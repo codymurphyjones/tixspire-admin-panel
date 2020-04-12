@@ -16,7 +16,7 @@ app.prepare()
 .catch((ex) => {
   console.error(ex.stack)
   process.exit(1)
-}).finally(() => console.log("Server Started"););
+}).finally(() => console.log("Server Started"));
 
 
 
