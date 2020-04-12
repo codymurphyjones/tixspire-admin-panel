@@ -10,15 +10,17 @@ const {RunServer} = require("tixpire-server");
 
 console.log(RunServer);
 
-function handler(req, res) {
-	res.send("Success");
-	return { req, res }
-}
-
-
-
 console.log("Starting");
-RunServer(handle);
+app.prepare()
+.then(RunServer(handle, port))
+.catch((ex) => {
+  console.error(ex.stack)
+  process.exit(1)
+}).finally(() => console.log("Server Started"););
+
+
+
+
 /*
 app.prepare()
 .then(() => {
