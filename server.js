@@ -1,6 +1,6 @@
-const express = require('express')
+//const express = require('express')
 const next = require('next')
-const cors = require('cors')
+//const cors = require('cors')
 const dev = process.env.NODE_ENV !== 'production'
 const port = process.argv[2].replace("$PORT", "3000");;
 const app = next({ dev })
