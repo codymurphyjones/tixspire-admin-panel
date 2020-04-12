@@ -5,7 +5,7 @@ const dev = process.env.NODE_ENV !== 'production'
 const port = process.argv[2].replace("$PORT", "3000");;
 const app = next({ dev })
 const handle = app.getRequestHandler()
-//const serverHandler = require("./server/");
+
 const {RunServer} = require("tixpire-server");
 
 console.log(RunServer);
