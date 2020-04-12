@@ -18,8 +18,8 @@ function handler(req, res) {
 
 
 console.log("Starting");
-
-
+RunServer(handle);
+/*
 app.prepare()
 .then(() => {
   const server = express()
@@ -54,4 +54,4 @@ server.route('/api*').all(function (req, res) {
 .catch((ex) => {
   console.error(ex.stack)
   process.exit(1)
-})
+})*/
