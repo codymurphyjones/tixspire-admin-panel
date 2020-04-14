@@ -2,7 +2,9 @@
 import React, {useState, useEffect, useRef, forwardRef} from 'react';
 import { useRouter } from "next/router"
 
-import { auth } from "../utils/firebase"
+
+import tixApi from "tixpire-api"
+var {auth} = tixApi;
 
 import { Button, Input, PageHeader  } from 'antd';
 

@@ -3,7 +3,9 @@ import React, {useEffect} from 'react';
 import { useRouter } from 'next/router'
 import ScreenArea from "../client/ScreenArea"
 import UserAuthentication from '../client/UserAuthentication';
-import { auth } from "../utils/firebase"
+
+import tixApi from "tixpire-api"
+var {auth} = tixApi;
 import 'antd/dist/antd.css';
 import './style.css'
 

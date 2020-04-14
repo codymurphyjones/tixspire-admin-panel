@@ -4,11 +4,11 @@ import { useRouter } from 'next/router'
 import ScreenArea from "../../client/ScreenArea"
 import {PricingTable, PricingSlot, PricingDetail} from 'react-pricing-table';
 import ReactTooltip from 'react-tooltip'
-/*
-import { auth } from "../../utils/firebase"*/
 import 'antd/dist/antd.css';
 import '../style.css'
-import {firestore} from "../../utils/firebase"
+
+import tixApi from "tixpire-api"
+var {firestore} = tixApi;
 
 import {useWindowDimensions} from "../../utils/hooks"
 

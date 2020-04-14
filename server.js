@@ -5,8 +5,6 @@ const handle = app.getRequestHandler()
 
 const {RunServer} = require("tixpire-server");
 
-console.log(RunServer);
-
 console.log("Starting");
 app.prepare()
 .then(RunServer(handle, port))
@@ -14,41 +12,3 @@ app.prepare()
   console.error(ex.stack)
   process.exit(1)
 }).finally(() => console.log("Server Started"));
-
-
-/*
-app.prepare()
-.then(() => {
-  const server = express()
-  console.log("Server init");
-  server.options('*', cors()) 
-  
-  server.use(express.static('public'));
-  
-server.route('/ticketing/*').all(function (req, res) {
-    // runs for all HTTP verbs first
-    // think of it as route specific middleware!
-    
-    return serverHandler.ticketing(req,res);
-  })
-  
-  
-server.route('/api*').all(function (req, res) {
-    // runs for all HTTP verbs first
-    // think of it as route specific middleware!
-    return serverHandler.api(req,res);
-  })
-    
-  server.get('*', (req, res) => {
-    return handle(req, res)
-  })
-
-  server.listen(port, (err) => {
-    if (err) throw err
-    console.log('> Ready on http://localhost:' + port)
-  })
-})
-.catch((ex) => {
-  console.error(ex.stack)
-  process.exit(1)
-})*/

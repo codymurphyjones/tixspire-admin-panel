@@ -6,7 +6,9 @@ import {IoIosAdd, IoIosRemoveCircle } from "react-icons/io";
 import ApiRequest, {createProduct, generatePlan,generateStandardPlan, createPlan} from "../../ApiRequest";
 import { Input  } from 'antd';
 import ParterLookup from "./PartnerLookup"
-import {firestore} from "../../../utils/firebase"
+//import {firestore} from "../../../utils/firebase"
+import tixApi from "tixpire-api"
+var {firestore} = tixApi;
 
 
 const MainContent = (props) => {

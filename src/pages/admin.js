@@ -7,7 +7,9 @@ import Modal from "../client/Modal"
 
 import { Tabs, Icon, Alert } from 'antd';
 import { useRouter } from 'next/router'
-import { auth } from "../utils/firebase"
+
+import tixApi from "tixpire-api"
+var {auth} = tixApi;
 import 'antd/dist/antd.css';
 import './style.css'
   

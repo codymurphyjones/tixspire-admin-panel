@@ -6,7 +6,9 @@ import React, {useState, useEffect} from 'react';
 import { useRouter } from 'next/router'
 
 
-import { auth } from "../utils/firebase"
+
+import tixApi from "tixpire-api"
+var {auth} = tixApi;
   
 
 

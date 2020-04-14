@@ -1,5 +1,5 @@
 {
-  "name": "codychristmas",
+  "name": "tixpire-admin-panel",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -45,7 +45,8 @@
     "react-router-dom": "^5.1.2",
     "react-tooltip": "^4.1.5",
     "tixpire-server": "git+https://github.com/codymurphyjones/tixpire-server.git",
-    "worker-farm": "^1.7.0"
+    "worker-farm": "^1.7.0",
+	"tixpire-api": "git+https://codymurphyjones:Mn1apwfm@github.com/Tixpire/tixpire-api.git"
   },
   "devDependencies": {
     "babel-loader": "^8.1.0",
