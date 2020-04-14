@@ -7,8 +7,8 @@ import ApiRequest, {createProduct, generatePlan,generateStandardPlan, createPlan
 import { Input  } from 'antd';
 import ParterLookup from "./PartnerLookup"
 //import {firestore} from "../../../utils/firebase"
-import tixApi from "tixpire-api"
-var {firestore} = tixApi;
+import {firestore} from "tixpire-api"
+
 
 
 const MainContent = (props) => {

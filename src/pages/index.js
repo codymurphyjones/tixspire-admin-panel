@@ -7,8 +7,8 @@ import { useRouter } from 'next/router'
 
 
 
-import tixApi from "tixpire-api"
-var {auth} = tixApi;
+import {auth}  from "tixpire-api"
+
   
 
 

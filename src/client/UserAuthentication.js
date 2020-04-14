@@ -3,8 +3,7 @@ import React, {useState, useEffect, useRef, forwardRef} from 'react';
 import { useRouter } from "next/router"
 
 
-import tixApi from "tixpire-api"
-var {auth} = tixApi;
+import {auth} from "tixpire-api"
 
 import { Button, Input, PageHeader  } from 'antd';
 

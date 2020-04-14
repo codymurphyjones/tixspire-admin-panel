@@ -7,8 +7,7 @@ import ReactTooltip from 'react-tooltip'
 import 'antd/dist/antd.css';
 import '../style.css'
 
-import tixApi from "tixpire-api"
-var {firestore} = tixApi;
+import {firestore} from "tixpire-api"
 
 import {useWindowDimensions} from "../../utils/hooks"
 

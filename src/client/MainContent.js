@@ -7,8 +7,8 @@ import {axios} from "axios"
 import {IoIosAdd, IoIosBackspace, IoIosLogOut, IoMdPersonAdd} from "react-icons/io";
 import {createProduct, generatePlan, createPlan} from "./ApiRequest";
 
-import tixApi from "tixpire-api"
-var {auth} = tixApi;
+import {auth} from "tixpire-api"
+
 import Modal from "./Modal"
 import ViewController from "./ViewController"
 

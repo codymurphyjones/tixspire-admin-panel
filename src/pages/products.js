@@ -4,8 +4,7 @@ import { useRouter } from 'next/router'
 import ScreenArea from "../client/ScreenArea"
 import UserAuthentication from '../client/UserAuthentication';
 
-import tixApi from "tixpire-api"
-var {auth} = tixApi;
+import {auth} from "tixpire-api"
 
 const Login = (props) => {
 
